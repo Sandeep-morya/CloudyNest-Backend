@@ -177,12 +177,16 @@ router.get(
 );
 
 /* Hard match  */
+
 router.get(
 	"/",
 	asyncHandler(async (req, res) => {
 		const query = { $regex: req.query.q, $options: "i" };
 		const page = +req.query.page || 1;
-		const limit = +req.query.limit || 20;
+		const limit = +req.query.limit || 20
+		
+		const total_count = await Product.count();
+		
 		const products = await Product.find({
 			$or: [
 				{ title: query },
@@ -194,7 +198,11 @@ router.get(
 			],
 		}).skip((page - 1) * limit)
 			.limit(limit).sort({ updatedAt: -1 });
-		res.send(products);
+		res.send({
+			products,
+			total_pages: Math.ceil(total_count / limit),
+			total_count
+			}); 
 	}),
 );
 
