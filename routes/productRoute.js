@@ -193,7 +193,7 @@ router.get(
 				{ for_age: query },
 			],
 		}).skip((page - 1) * limit)
-			.limit(limit);;
+			.limit(limit).sort({ updatedAt: -1 });
 		res.send(products);
 	}),
 );
