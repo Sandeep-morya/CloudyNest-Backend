@@ -183,7 +183,7 @@ router.get(
 	asyncHandler(async (req, res) => {
 		const query = { $regex: req.query.q, $options: "i" };
 		const page = +req.query.page || 1;
-		const limit = +req.query.limit || 
+		const limit = +req.query.limit || 20;
 		
 		const options = {
 			$or: [
