@@ -181,6 +181,8 @@ router.get(
 	"/",
 	asyncHandler(async (req, res) => {
 		const query = { $regex: req.query.q, $options: "i" };
+		const page = +req.query.page || 1;
+		const limit = +req.query.limit || 20;
 		const products = await Product.find({
 			$or: [
 				{ title: query },
@@ -190,7 +192,8 @@ router.get(
 				{ for_gender: query },
 				{ for_age: query },
 			],
-		});
+		}).skip((page - 1) * limit)
+			.limit(limit);;
 		res.send(products);
 	}),
 );
