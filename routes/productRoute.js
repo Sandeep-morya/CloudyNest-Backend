@@ -198,13 +198,13 @@ router.get(
 		
 		
 		
-		const productsCount = await Product.find(options).count();
+		const 	total_count = await Product.find(options).count();
 		const products = await Product.find(options).skip((page - 1) * limit)
 			.limit(limit).sort({ updatedAt: -1 });
 		
 		res.send({
 			products,
-			total_pages: Math.ceil(productsCount / limit),
+			total_pages: Math.ceil(	total_count / limit),
 			total_count
 			}); 
 	}),
